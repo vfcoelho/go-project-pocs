@@ -19,7 +19,7 @@ import (
 func main() {
 	consumer := events.NewConsumer[dtos.Record]()
 
-	handlers := []events.Handler{errorRecover, parseMessage, processMessage}
+	handlers := []events.Handler{errorRecover, parseMessage, processMessage} //REVIEW: decorator stack of handlers similar to the middleware pattern
 
 	go func() {
 		if err := consumer.Consume(handlers...); err != nil {
@@ -39,10 +39,10 @@ func main() {
 }
 
 func processMessage(ctx *events.ConsumerCtx) error {
-	memoryRepository := repositories.NewMemoryRepository[*dtos.Record]() //will never succeed because it's not using a shared memory between the producer and the consumer
+	memoryRepository := repositories.NewMemoryRepository[*dtos.Record]() //FIXME: will never succeed because it's not using a shared memory between the producer and the consumer
 	return handlers.Consume(ctx, memoryRepository)
 }
-func parseMessage(ctx *events.ConsumerCtx) error {
+func parseMessage(ctx *events.ConsumerCtx) error { //REVIEW: standardized parser to prevent code duplication in workers
 	var message dtos.Record
 	err := json.Unmarshal(ctx.GetMessage(), &message)
 	if err != nil {
@@ -52,7 +52,7 @@ func parseMessage(ctx *events.ConsumerCtx) error {
 	return ctx.Next()
 }
 
-func errorRecover(ctx *events.ConsumerCtx) error {
+func errorRecover(ctx *events.ConsumerCtx) error { //REVIEW: error handling middleware for workers
 	err := ctx.Next()
 	if err != nil {
 		var customErr *errs.Error

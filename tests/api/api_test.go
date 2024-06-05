@@ -22,7 +22,7 @@ type ApiTestSuite struct {
 	suite.Suite
 	app *fiber.App
 }
-
+//TODO: add mocks for event producer
 func TestApiTestSuite(t *testing.T) {
 	suite.Run(t, new(ApiTestSuite))
 }
@@ -35,8 +35,7 @@ func (suite *ApiTestSuite) SetupTest() {
 }
 
 func (suite *ApiTestSuite) TestCreateRecord() {
-	// assert.Equal(suite.T(), 5, suite.VariableThatShouldStartAtFive)
-
+	
 	type testResponse struct {
 		errs.Error
 	}
