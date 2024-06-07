@@ -8,8 +8,6 @@ import (
 	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
 )
 
-type ErrorCode string
-
 func ParseMessage[T any](ctx *ConsumerCtx) error { //REVIEW: standardized parser to prevent code duplication in workers
 	var message T
 	err := json.Unmarshal(ctx.GetMessage(), &message)
