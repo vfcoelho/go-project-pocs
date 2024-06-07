@@ -33,7 +33,7 @@ func ErrorRecoverMiddleware(c *fiber.Ctx) (err error) { //REVIEW: error response
 			}
 			return c.Status(errorCode).JSON(httpErr)
 		case errors.As(err, &fiberErr):
-			return c.Status(fiberErr.Code).JSON(errs.NewError(err))
+			return err
 		default:
 			return c.Status(fiber.StatusInternalServerError).JSON(errs.NewError(err))
 		}

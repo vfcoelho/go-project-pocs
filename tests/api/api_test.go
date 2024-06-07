@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	nethttp "net/http"
 	"net/http/httptest"
 	"testing"
 
@@ -48,15 +49,19 @@ func (suite *ApiTestSuite) TestCreateRecord() {
 	type testCase struct {
 		Payload  record
 		WantCode int
-		Want     testResponse
+		Want     any
+	}
+
+	setupReq := func(payload record, route string) *nethttp.Request {
+		payloadStr, _ := json.Marshal(payload)
+		req := httptest.NewRequest("POST", route, bytes.NewBuffer(payloadStr))
+		req.Header.Add("Content-Type", "application/json")
+		return req
 	}
 
 	TestCase := func(name string, useCase testCase) (string, func()) {
 		return name, func() {
-			payload, _ := json.Marshal(useCase.Payload)
-			route := "/v1/record"
-			req := httptest.NewRequest("POST", route, bytes.NewBuffer(payload))
-			req.Header.Add("Content-Type", "application/json")
+			req := setupReq(useCase.Payload, "/v1/record")
 
 			resp, _ := suite.app.Test(req, -1)
 			bodyString, _ := io.ReadAll(resp.Body)
@@ -66,6 +71,17 @@ func (suite *ApiTestSuite) TestCreateRecord() {
 
 			assert.Equal(suite.T(), useCase.WantCode, resp.StatusCode)
 			assert.Equal(suite.T(), useCase.Want, body)
+		}
+	}
+	TestCaseFiberResponse := func(name string, useCase testCase) (string, func()) {
+		return name, func() {
+			req := setupReq(useCase.Payload, "/v1/record")
+
+			resp, _ := suite.app.Test(req, -1)
+			bodyString, _ := io.ReadAll(resp.Body)
+
+			assert.Equal(suite.T(), useCase.WantCode, resp.StatusCode)
+			assert.Equal(suite.T(), useCase.Want.(string), string(bodyString))
 		}
 	}
 
@@ -79,15 +95,13 @@ func (suite *ApiTestSuite) TestCreateRecord() {
 			Error: errs.Error{Err: errors.New("id cannot be nil")},
 		},
 	}))
-	suite.Run(TestCase("should fail while creating record with invalid id", testCase{
+	suite.Run(TestCaseFiberResponse("should fail while creating record with invalid id", testCase{
 		Payload: record{
 			Id:   "5d2ca371-f623-4aac-abb0-ddc31f44d00-",
 			Name: "Dummy Record",
 		},
 		WantCode: 400,
-		Want: testResponse{
-			Error: errs.Error{Err: errors.New("error parsing payload: invalid UUID format")},
-		},
+		Want:     "error parsing payload: invalid UUID format",
 	}))
 	suite.Run(TestCase("should succeed while creating record with valid id", testCase{
 		Payload: record{
