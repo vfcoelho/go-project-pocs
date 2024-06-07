@@ -23,7 +23,7 @@ func ErrorRecoverMiddleware(c *fiber.Ctx) (err error) { //REVIEW: error response
 	err = c.Next()
 
 	if err != nil {
-		var httpErr *errs.Error
+		var httpErr errs.Error
 		var fiberErr *fiber.Error
 		switch {
 		case errors.As(err, &httpErr):
