@@ -2,7 +2,7 @@ package internal
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/vfcoelho/go-studies/go-api/internal/errors"
+	"github.com/vfcoelho/go-project-pocs/internal/errors"
 )
 
 const (

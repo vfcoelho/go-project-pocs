@@ -5,11 +5,11 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	internal "github.com/vfcoelho/go-studies/go-api/internal"
-	errs "github.com/vfcoelho/go-studies/go-api/internal/errors"
-	"github.com/vfcoelho/go-studies/go-api/src/dtos"
-	"github.com/vfcoelho/go-studies/go-api/src/handlers"
-	"github.com/vfcoelho/go-studies/go-api/src/repositories"
+	internal "github.com/vfcoelho/go-project-pocs/internal"
+	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
+	"github.com/vfcoelho/go-project-pocs/src/dtos"
+	"github.com/vfcoelho/go-project-pocs/src/handlers"
+	"github.com/vfcoelho/go-project-pocs/src/repositories"
 )
 
 func SetCodeErrorMappings(mappings map[errs.ErrorCode]int) func(*fiber.Ctx) error { //REVIEW: fiber middleware to set error mappings and later be used by the error response middleware

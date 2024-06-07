@@ -1,4 +1,4 @@
-module github.com/vfcoelho/go-studies/go-api
+module github.com/vfcoelho/go-project-pocs
 
 go 1.22.3
 

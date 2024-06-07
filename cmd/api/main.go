@@ -8,9 +8,9 @@ import (
 	"syscall"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/vfcoelho/go-studies/go-api/internal/events"
-	"github.com/vfcoelho/go-studies/go-api/internal/http"
-	"github.com/vfcoelho/go-studies/go-api/src/dtos"
+	"github.com/vfcoelho/go-project-pocs/internal/events"
+	"github.com/vfcoelho/go-project-pocs/internal/http"
+	"github.com/vfcoelho/go-project-pocs/src/dtos"
 )
 
 func main() {

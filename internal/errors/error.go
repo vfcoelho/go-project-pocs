@@ -23,15 +23,15 @@ type payloadError struct {
 }
 
 func (he Error) Error() string { //REVIEW: custom error is a go error
-	return fmt.Errorf("HTTP: %v: %w", he.Code, he.Err).Error()
+	return fmt.Errorf("%v: %w", he.Code, he.Err).Error()
 }
 
 func (he Error) Is(target error) bool { //REVIEW: Is method evaluates error code in order to match different data and wrapped errors
-	var targetError *Error
+	var targetError Error
 	if errors.As(target, &targetError) {
 		return targetError.Code == he.Code
 	}
-	return false
+	return errors.Is(he.Err, target)
 }
 
 func (he Error) MarshalJSON() ([]byte, error) { //REVIEW: also marshalable to json for later logging
@@ -42,16 +42,20 @@ func (he Error) MarshalJSON() ([]byte, error) { //REVIEW: also marshalable to js
 	})
 }
 
-func (he *Error) UnmarshalJSON(data []byte) error { //REVIEW: also unmarshalable to from for API usage
+func (he Error) Unwrap() error {
+	return he.Err
+}
+
+func (he *Error) UnmarshalJSON(data []byte) error { //REVIEW: also unmarshalable from json for API usage
 	var s payloadError
 	if err := json.Unmarshal(data, &s); err != nil {
 		return err
 	}
-	*he = *NewError(errors.New(s.Err), WithCode(s.Code), WithData(s.Data))
+	*he = NewError(errors.New(s.Err), WithCode(s.Code), WithData(s.Data))
 	return nil
 }
 
-func NewIsComparable(code ErrorCode) *Error {
+func NewIsComparable(code ErrorCode) Error {
 	return NewError(nil, WithCode(code))
 }
 
@@ -66,10 +70,10 @@ func WithData(data any) ErrorOption {
 		he.Data = data
 	}
 }
-func NewError(err error, opts ...ErrorOption) *Error {
-	he := &Error{Err: err}
+func NewError(err error, opts ...ErrorOption) Error {
+	he := Error{Err: err}
 	for _, opt := range opts {
-		opt(he)
+		opt(&he)
 	}
 	return he
 }

@@ -9,11 +9,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	errs "github.com/vfcoelho/go-studies/go-api/internal/errors"
-	"github.com/vfcoelho/go-studies/go-api/internal/events"
-	"github.com/vfcoelho/go-studies/go-api/src/dtos"
-	"github.com/vfcoelho/go-studies/go-api/src/handlers"
-	"github.com/vfcoelho/go-studies/go-api/src/repositories"
+	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
+	"github.com/vfcoelho/go-project-pocs/internal/events"
+	"github.com/vfcoelho/go-project-pocs/src/dtos"
+	"github.com/vfcoelho/go-project-pocs/src/handlers"
+	"github.com/vfcoelho/go-project-pocs/src/repositories"
 )
 
 func main() {

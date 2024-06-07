@@ -12,17 +12,18 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	errs "github.com/vfcoelho/go-studies/go-api/internal/errors"
-	"github.com/vfcoelho/go-studies/go-api/internal/events"
-	"github.com/vfcoelho/go-studies/go-api/internal/http"
-	"github.com/vfcoelho/go-studies/go-api/src/dtos"
+	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
+	"github.com/vfcoelho/go-project-pocs/internal/events"
+	"github.com/vfcoelho/go-project-pocs/internal/http"
+	"github.com/vfcoelho/go-project-pocs/src/dtos"
 )
 
 type ApiTestSuite struct {
 	suite.Suite
 	app *fiber.App
 }
-//TODO: add mocks for event producer
+
+// TODO: add mocks for event producer
 func TestApiTestSuite(t *testing.T) {
 	suite.Run(t, new(ApiTestSuite))
 }
@@ -35,7 +36,7 @@ func (suite *ApiTestSuite) SetupTest() {
 }
 
 func (suite *ApiTestSuite) TestCreateRecord() {
-	
+
 	type testResponse struct {
 		errs.Error
 	}

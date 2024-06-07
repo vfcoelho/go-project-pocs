@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	internal "github.com/vfcoelho/go-studies/go-api/internal"
-	errs "github.com/vfcoelho/go-studies/go-api/internal/errors"
+	internal "github.com/vfcoelho/go-project-pocs/internal"
+	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
 )
 
 type RecordInterface interface {

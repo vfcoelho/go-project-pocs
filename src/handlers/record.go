@@ -6,10 +6,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/vfcoelho/go-studies/go-api/internal"
-	errs "github.com/vfcoelho/go-studies/go-api/internal/errors"
-	"github.com/vfcoelho/go-studies/go-api/internal/events"
-	"github.com/vfcoelho/go-studies/go-api/src/dtos"
+	"github.com/vfcoelho/go-project-pocs/internal"
+	errs "github.com/vfcoelho/go-project-pocs/internal/errors"
+	"github.com/vfcoelho/go-project-pocs/internal/events"
+	"github.com/vfcoelho/go-project-pocs/src/dtos"
 )
 
 type RecordRepository[T any] interface {
